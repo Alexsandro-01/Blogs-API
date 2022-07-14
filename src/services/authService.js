@@ -31,7 +31,7 @@ async function getByEmail(email) {
     throwError('clientError', 'Invalid fields');
   }
 
-  return user.dataValues;
+  return user.toJSON();
 }
 
 function makeToken(data) {
