@@ -42,8 +42,18 @@ function makeToken(data) {
   return token;
 }
 
+function readToken(token) {
+  try {
+    const { data } = JWT.verify(token, SECRET);
+    return data;
+  } catch (e) {
+    throwError('JsonWebTokenError', 'Expired or invalid token');  
+  }
+}
+
 module.exports = {
   validLogin,
   getByEmail,
   makeToken,
+  readToken,
 };

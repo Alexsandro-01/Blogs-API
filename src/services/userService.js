@@ -35,8 +35,17 @@ async function create(data) {
   return newUser;
 }
 
+async function getAll() {
+  const users = await model.User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+
+  return users;
+}
+
 module.exports = {
   isValidUser,
   userExists,
   create,
+  getAll,
 };
