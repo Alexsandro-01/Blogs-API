@@ -1,10 +1,21 @@
-const { isValidUser } = require('../services/userService');
+const userService = require('../services/userService');
+const authService = require('../services/authService');
 
 /** @type {import('express').RequestHandler} */
-function create(req, res) {
+async function create(req, res) {
   const data = req.body;
 
-  const response = isValidUser(data);
+  await userService.isValidUser(data);
+  
+  await userService.userExists(data.email);
 
-  res.send(response);
+  const user = await userService.create(data);
+
+  const token = authService.makeToken(user);
+
+  res.status(201).json({ token });
 }
+
+module.exports = {
+  create,
+};

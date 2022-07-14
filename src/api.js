@@ -3,7 +3,7 @@ require('express-async-errors');
 
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const authRoute = require('./routes/login');
-const userRoute = require('./controllers/user');
+const userRoute = require('./routes/user');
 
 // ...
 

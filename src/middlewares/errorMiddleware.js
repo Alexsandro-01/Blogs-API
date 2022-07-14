@@ -1,5 +1,6 @@
 const errors = {
   clientError: 400,
+  clientConflict: 409,
 };
 
 function errorMiddleware(err, req, res, _next) {
