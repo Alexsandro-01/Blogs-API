@@ -8,6 +8,12 @@ async function create(data) {
   return category;
 }
 
+async function getAll() {
+  const categories = await model.Category.findAll();
+
+  return categories;
+}
+
 function isValidCategory(data) {
   const schema = Joi.object({
     name: Joi.string().required().max(255),
@@ -22,5 +28,6 @@ function isValidCategory(data) {
 
 module.exports = {
   create,
+  getAll,
   isValidCategory,
 };
