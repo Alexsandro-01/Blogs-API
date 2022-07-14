@@ -43,9 +43,30 @@ async function getAll() {
   return users;
 }
 
+async function getById(id) {
+  const schema = Joi.number().required().positive();
+
+  const userId = schema.validate(id);
+
+  if (userId.error) {
+    throwError('clientError', userId.error.message);
+  }
+
+  const user = await model.User.findOne({
+    where: { id: userId.value },
+    attributes: { exclude: ['password'] },
+  });
+
+  if (!user) {
+    throwError('notFound', 'User does not exist');
+  }
+  return user;
+}
+
 module.exports = {
   isValidUser,
   userExists,
   create,
   getAll,
+  getById,
 };

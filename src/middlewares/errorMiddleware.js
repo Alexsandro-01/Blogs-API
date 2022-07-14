@@ -1,7 +1,7 @@
 const errors = {
   clientError: 400,
   JsonWebTokenError: 401,
-  // unauthorized: 401,
+  notFound: 404,
   clientConflict: 409,
 };
 

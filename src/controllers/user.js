@@ -21,7 +21,17 @@ async function getAll(_req, res) {
   res.status(200).json(users);
 }
 
+/** @type {import('express').RequestHandler} */
+async function getById(req, res) {
+  const { id } = req.params;
+
+  const user = await userService.getById(id);
+
+  res.status(200).json(user);
+}
+
 module.exports = {
   create,
   getAll,
+  getById,
 };
