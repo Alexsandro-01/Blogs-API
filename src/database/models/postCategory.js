@@ -15,7 +15,7 @@ function postCategory(sequelize, DataTypes) {
       }
     },
     { 
-      tableName: 'postCategories',
+      tableName: 'PostCategories',
       timestamps: false
     },
   );
