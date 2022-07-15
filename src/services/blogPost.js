@@ -54,8 +54,30 @@ async function create(data) {
   return newPost;
 }
 
+async function getAll() {
+  const posts = model.BlogPost.findAll(
+    {
+      include: [
+        {
+          model: model.User,
+          as: 'user',
+          attributes: { exclude: ['password'] },
+        },
+        { 
+          model: model.Category,
+          as: 'categories',
+          through: { attributes: [] },
+        },
+      ],
+    },
+  );
+
+  return posts;
+}
+
 module.exports = {
   validatePost,
   ExistCategorys,
   create,
+  getAll,
 };
