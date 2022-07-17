@@ -7,5 +7,6 @@ const route = express.Router();
 
 route.post('/post', tokenMiddleware, blogPostController.create);
 route.get('/post', tokenMiddleware, blogPostController.getAll);
+route.get('/post/:id', tokenMiddleware, blogPostController.getById);
 
 module.exports = route;

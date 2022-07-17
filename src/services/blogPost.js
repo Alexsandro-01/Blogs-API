@@ -55,8 +55,9 @@ async function create(data) {
 }
 
 async function getAll() {
-  const posts = model.BlogPost.findAll(
+  const posts = await model.BlogPost.findAll(
     {
+      // attributes: { exclude: ['UserId'] },
       include: [
         {
           model: model.User,
@@ -75,9 +76,33 @@ async function getAll() {
   return posts;
 }
 
+async function getById({ value }) {
+  const post = await model.BlogPost.findOne({
+    where: { id: value },
+    attributes: { exclude: ['UserId'] },
+    include: [
+      {
+        model: model.User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: model.Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+
+  if (!post) throwError('notFound', 'Post does not exist');
+
+  return post;
+}
+
 module.exports = {
   validatePost,
   ExistCategorys,
   create,
   getAll,
+  getById,
 };

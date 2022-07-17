@@ -29,6 +29,18 @@ async function isValidUser(data) {
   }
 }
 
+async function isValidId(id) {
+  const schema = Joi.number().required().positive();
+
+  const userId = schema.validate(id);
+
+  if (userId.error) {
+    throwError('clientError', userId.error.message);
+  }
+
+  return userId;
+}
+
 async function create(data) {
   const user = await model.User.create(data);
   const newUser = user.toJSON();
@@ -44,14 +56,8 @@ async function getAll() {
 }
 
 async function getById(id) {
-  const schema = Joi.number().required().positive();
-
-  const userId = schema.validate(id);
-
-  if (userId.error) {
-    throwError('clientError', userId.error.message);
-  }
-
+  const userId = await isValidId(id);
+  
   const user = await model.User.findOne({
     where: { id: userId.value },
     attributes: { exclude: ['password'] },
@@ -65,6 +71,7 @@ async function getById(id) {
 
 module.exports = {
   isValidUser,
+  isValidId,
   userExists,
   create,
   getAll,
