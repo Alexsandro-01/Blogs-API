@@ -25,8 +25,20 @@ async function getAll(req, res) {
 /** @type {import('express').RequestHandler} */
 async function getById(req, res) {
   const { id } = req.params;
-  const postId = await userService.isValidId(id);
+  const { value: postId } = await userService.isValidId(id);
   const post = await blogPostService.getById(postId);
+
+  res.status(200).json(post);
+}
+
+/** @type {import('express').RequestHandler} */
+async function updateById(req, res) {
+  const { id } = req.params;
+  const data = req.body;
+  const userId = req.user.id;
+
+  const { value: postId } = await userService.isValidId(id);
+  const post = await blogPostService.updateById(data, postId, userId);
 
   res.status(200).json(post);
 }
@@ -35,4 +47,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  updateById,
 };

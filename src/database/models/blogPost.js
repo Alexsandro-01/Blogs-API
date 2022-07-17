@@ -15,18 +15,12 @@ function BlogPosts(sequelize, DataTypes) {
       type:  DataTypes.INTEGER,
       foreignKey: true,
     },
-    published: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-    },
-    updated: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      onUpdate: sequelize.literal('CURRENT_TIMESTAMP'),
-    },
+    published: DataTypes.DATE,
+    updated: DataTypes.DATE,
   },
   {
-    timestamps: false,
+    createdAt: 'published',
+    updatedAt: 'updated',
   });
 
   blogPost.associate = (model) => {

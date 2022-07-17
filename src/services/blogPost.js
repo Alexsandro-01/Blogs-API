@@ -3,19 +3,23 @@ const model = require('../database/models');
 
 const throwError = require('../utils/throwError');
 
-async function validatePost(data) {
+async function validatePostContent(data) {
   const schema = Joi.object({
     title: Joi.string().required().max(255),
     content: Joi.string().required().max(255),
   });
-
-  const arraySchema = Joi.array().items(Joi.number().required());
-
-  const { categoryIds, ...post } = data;
-  const responsePost = schema.validate(post);
+  
+  const responsePost = schema.validate(data);
   if (responsePost.error) {
     throwError('clientError', 'Some required fields are missing');
   }
+}
+
+async function validatePost(data) {
+  const arraySchema = Joi.array().items(Joi.number().required());
+
+  const { categoryIds, ...post } = data;
+  await validatePostContent(post);
 
   const responseCategoryIds = arraySchema.validate(categoryIds);
 
@@ -76,9 +80,9 @@ async function getAll() {
   return posts;
 }
 
-async function getById({ value }) {
+async function getById(postId) {
   const post = await model.BlogPost.findOne({
-    where: { id: value },
+    where: { id: postId },
     attributes: { exclude: ['UserId'] },
     include: [
       {
@@ -99,10 +103,35 @@ async function getById({ value }) {
   return post;
 }
 
+async function updateById(post, postId, userId) {
+  await validatePostContent(post);
+
+  const response = await model.BlogPost.findOne({
+     where: { id: postId },
+     attributes: { exclude: ['UserId'] },
+    });
+  
+  const POST = response.toJSON();
+
+  if (POST.userId !== userId) {
+    throwError('JsonWebTokenError', 'Unauthorized user');
+  }
+
+  const updatedPost = await model.BlogPost.update(
+    { ...post },
+    { where: { id: postId } },
+  );
+
+  if (updatedPost[0] === 1) {
+    return getById(postId);
+  }
+}
+
 module.exports = {
   validatePost,
   ExistCategorys,
   create,
   getAll,
   getById,
+  updateById,
 };
