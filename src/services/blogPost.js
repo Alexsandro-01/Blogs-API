@@ -127,6 +127,28 @@ async function updateById(post, postId, userId) {
   }
 }
 
+async function remove(postId, userId) {
+  const post = await model.BlogPost.findOne({
+    where: { id: postId },
+    attributes: ['id', 'userId'],
+  });
+
+  if (!post) {
+    throwError('notFound', 'Post does not exist');
+  }
+
+  if (post.dataValues.userId !== userId) {
+    throwError('JsonWebTokenError', 'Unauthorized user');
+  }
+
+  await model.BlogPost.destroy({
+    where: {
+      id: postId,
+      userId,
+    },
+  });
+}
+
 module.exports = {
   validatePost,
   ExistCategorys,
@@ -134,4 +156,5 @@ module.exports = {
   getAll,
   getById,
   updateById,
+  remove,
 };

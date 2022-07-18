@@ -43,9 +43,21 @@ async function updateById(req, res) {
   res.status(200).json(post);
 }
 
+/** @type {import('express').RequestHandler} */
+async function remove(req, res) {
+  const { id } = req.params;
+  const userId = req.user.id;
+
+  const { value: postId } = await userService.isValidId(id);
+  await blogPostService.remove(postId, userId);
+
+  res.sendStatus(204);
+}
+
 module.exports = {
   create,
   getAll,
   getById,
   updateById,
+  remove,
 };
