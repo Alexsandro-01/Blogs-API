@@ -69,6 +69,14 @@ async function getById(id) {
   return user;
 }
 
+async function remove(userId) {
+  await model.User.destroy({
+    where: {
+      id: userId,
+    },
+  });
+}
+
 module.exports = {
   isValidUser,
   isValidId,
@@ -76,4 +84,5 @@ module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };

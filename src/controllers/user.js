@@ -30,8 +30,18 @@ async function getById(req, res) {
   res.status(200).json(user);
 }
 
+/** @type {import('express').RequestHandler} */
+async function remove(req, res) {
+  const userId = req.user.id;
+
+  await userService.remove(userId);
+
+  res.sendStatus(204);
+}
+
 module.exports = {
   create,
   getAll,
   getById,
+  remove,
 };
