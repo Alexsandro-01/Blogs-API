@@ -1,6 +1,7 @@
 const Joi = require('joi');
-const model = require('../database/models');
+const { Op } = require('sequelize');
 
+const model = require('../database/models');
 const throwError = require('../utils/throwError');
 
 async function validatePostContent(data) {
@@ -103,6 +104,27 @@ async function getById(postId) {
   return post;
 }
 
+async function getByQuery(query) {
+  const posts = await model.BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${query}%` } },
+        { content: { [Op.like]: `%${query}%` } },
+      ],
+    },
+    attributes: { exclude: ['UserId'] },
+    include: [
+      {
+        model: model.User, as: 'user', attributes: { exclude: ['password'] },
+      },
+      {
+        model: model.Category, as: 'categories', through: { attributes: [] },
+      },
+    ],
+  });
+  return posts;
+}
+
 async function updateById(post, postId, userId) {
   await validatePostContent(post);
 
@@ -155,6 +177,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getByQuery,
   updateById,
   remove,
 };

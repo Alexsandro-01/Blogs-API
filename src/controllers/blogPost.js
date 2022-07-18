@@ -44,6 +44,16 @@ async function updateById(req, res) {
 }
 
 /** @type {import('express').RequestHandler} */
+async function getByQuery(req, res) {
+  const { q: query } = req.query;
+  const { id: userId } = req.user;
+
+  const posts = await blogPostService.getByQuery(query, userId);
+
+  res.status(200).json(posts);
+}
+
+/** @type {import('express').RequestHandler} */
 async function remove(req, res) {
   const { id } = req.params;
   const userId = req.user.id;
@@ -58,6 +68,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getByQuery,
   updateById,
   remove,
 };
