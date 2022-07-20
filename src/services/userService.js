@@ -70,11 +70,13 @@ async function getById(id) {
 }
 
 async function remove(userId) {
-  await model.User.destroy({
+  const iai = await model.User.destroy({
     where: {
       id: userId,
     },
   });
+
+  return iai;
 }
 
 module.exports = {

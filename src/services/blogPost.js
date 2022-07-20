@@ -62,7 +62,6 @@ async function create(data) {
 async function getAll() {
   const posts = await model.BlogPost.findAll(
     {
-      // attributes: { exclude: ['UserId'] },
       include: [
         {
           model: model.User,
@@ -84,7 +83,6 @@ async function getAll() {
 async function getById(postId) {
   const post = await model.BlogPost.findOne({
     where: { id: postId },
-    attributes: { exclude: ['UserId'] },
     include: [
       {
         model: model.User,
@@ -112,7 +110,6 @@ async function getByQuery(query) {
         { content: { [Op.like]: `%${query}%` } },
       ],
     },
-    attributes: { exclude: ['UserId'] },
     include: [
       {
         model: model.User, as: 'user', attributes: { exclude: ['password'] },
@@ -130,7 +127,6 @@ async function updateById(post, postId, userId) {
 
   const response = await model.BlogPost.findOne({
      where: { id: postId },
-     attributes: { exclude: ['UserId'] },
     });
   
   const POST = response.toJSON();

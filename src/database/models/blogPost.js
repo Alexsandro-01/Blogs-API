@@ -13,7 +13,10 @@ function BlogPosts(sequelize, DataTypes) {
     content: DataTypes.STRING,
     userId: {
       type:  DataTypes.INTEGER,
-      foreignKey: true,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
     },
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
