@@ -58,7 +58,9 @@ npm start
 
 5. A API foi documentada usando o `Swagger` (estou aprendendo a usar), para ter acesso a quais as rotas disponivéis na API, acesse a rota `http://localhost:3000/doc/` no seu navegador e verá uma página semelhante a essa:
 
-# video here
+
+https://user-images.githubusercontent.com/73038442/183264318-a819136b-75d6-4aff-83cd-ffe932c33d7e.mp4
+
 
 6. Ao fazer o login na API é devolvido um `token` e muitas rotas usam esse token para validar se o usuário é valido. O token é esperado no Header da requisição na chave `Authorization: token aqui`. Todas as rotas validam os dados esperados, caso algum não seja passado ou estaje em um formato inválido, a aplicação avisará.
 
