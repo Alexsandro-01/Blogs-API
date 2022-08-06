@@ -1,6 +1,9 @@
 const express = require('express');
 require('express-async-errors');
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('../swagger_output.json')
+
 const errorMiddleware = require('./middlewares/errorMiddleware');
 const authRoute = require('./routes/login');
 const userRoute = require('./routes/user');
@@ -16,6 +19,8 @@ app.use('/', authRoute);
 app.use('/', userRoute);
 app.use('/', categoryRoute);
 app.use('/', blogPostRoute);
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.use(errorMiddleware);
 // ...
