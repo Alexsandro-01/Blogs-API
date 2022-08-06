@@ -16,7 +16,7 @@ Blogs API foi criada para gerenciamento de conteúdo de um Blog. Podendo assim c
 
 Para que a API funcione como o esperado precisamos ter o Banco de dados MySQL instalado ou rodando em um Container Docker.
 A API usa variáveis de ambiente para algumas configurações. Na raiz do repositório clonado na sua máquina crie um arquivo chamdo `.env` com o conteúdo a seguir.
-> Troque o conteúdo das variáveis MYSQL para as cconfiguradas no Banco de Dados da sua máquina.
+> Troque o conteúdo das variáveis MYSQL para as configuradas no Banco de Dados da sua máquina.
 
 ~~~
 #### SERVER VARS
